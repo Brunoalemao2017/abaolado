@@ -1,0 +1,90 @@
+
+        .cut-project-modal.hidden {
+          display:none;
+        }
+        .cut-project-modal {
+          position:fixed;
+          inset:0;
+          z-index:1200;
+        }
+        .cut-project-modal-backdrop {
+          position:absolute;
+          inset:0;
+          background:rgba(15, 23, 42, 0.48);
+          backdrop-filter:blur(2px);
+        }
+        .cut-project-modal-card {
+          position:relative;
+          width:min(640px, calc(100vw - 32px));
+          margin:8vh auto 0;
+          background:#ffffff;
+          border-radius:22px;
+          box-shadow:0 30px 70px rgba(15, 23, 42, 0.22);
+          padding:22px;
+          border:1px solid #dbeafe;
+        }
+        .cut-project-modal-head {
+          display:flex;
+          justify-content:space-between;
+          gap:14px;
+          align-items:flex-start;
+          margin-bottom:18px;
+        }
+        .cut-project-modal-kicker {
+          font-size:12px;
+          font-weight:800;
+          letter-spacing:0.08em;
+          text-transform:uppercase;
+          color:#15803d;
+          margin-bottom:6px;
+        }
+        .cut-project-modal-head h2 {
+          margin:0 0 6px 0;
+          font-size:24px;
+        }
+        .cut-project-modal-help {
+          color:#64748b;
+          font-size:14px;
+          line-height:1.45;
+        }
+        .cut-project-modal-body {
+          display:grid;
+          gap:10px;
+        }
+        .cut-project-modal-body select {
+          min-height:48px;
+          font-size:16px;
+          background:#f8fafc;
+        }
+        .cut-project-modal-status {
+          min-height:20px;
+          color:#64748b;
+          font-size:13px;
+        }
+        .cut-project-modal-actions {
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          gap:12px;
+          flex-wrap:wrap;
+          margin-top:18px;
+        }
+        .cut-project-close {
+          white-space:nowrap;
+        }
+        @media (max-width: 640px) {
+          .cut-project-modal-card {
+            margin-top:4vh;
+            padding:18px;
+          }
+          .cut-project-modal-head,
+          .cut-project-modal-actions {
+            flex-direction:column;
+            align-items:stretch;
+          }
+          .cut-project-close {
+            width:100%;
+            justify-content:center;
+          }
+        }
+      

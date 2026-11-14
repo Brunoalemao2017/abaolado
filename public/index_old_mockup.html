@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="product-tabs-ready">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Central DXF PRO - Suite CNC Completa para Marcenaria</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "/vendor/three.module.js",
+      "three/addons/": "/vendor/",
+      "three/addons/OrbitControls.js": "/vendor/OrbitControls.js"
+    }
+  }
+  </script>
+  <style>
+    /* Ajustes finos para garantir fluidez perfeita do clone */
+    body { margin: 0; background-color: var(--c-bg); color: var(--c-text); font-family: 'Inter', system-ui, sans-serif; }
+    .preview-canvas { position: relative; width: 100%; height: 420px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; overflow: hidden; }
+    #curvoPreviewCanvas { width: 100%; height: 100%; display: block; }
+    #curvoPreview2DCanvas { width: 100%; height: 100%; display: none; background: #0a0e17; }
+    .preview-canvas-wrap { position: relative; }
+    .btn-view-toggle { position: absolute; left: 10px; bottom: 10px; z-index: 10; display: flex; gap: 4px; background: rgba(15,23,42,0.85); padding: 4px; border-radius: 8px; }
+    .btn-view-toggle button { background: transparent; border: none; color: #94a3b8; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 6px; cursor: pointer; }
+    .btn-view-toggle button.active { background: var(--c-primary); color: #fff; }
+    .preview-material-select { position: absolute; right: 10px; bottom: 10px; z-index: 10; background: rgba(15,23,42,0.85); color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; font-size: 11px; padding: 4px 8px; font-family: inherit; }
+  </style>
+</head>
+<body>
+
+<div class="app-shell">
+  <!-- SIDEBAR LATERAL ESCURA IDÊNTICA AO CENTRAL DXF -->
+  <aside class="app-sidebar">
+    <div class="brand">
+      <div class="brand-mark">D</div>
+      <div>
+        <div class="brand-name">Central DXF PRO</div>
+        <div class="brand-sub">Seu assistente CNC para marcenaria</div>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Geradores</div>
+      <ul class="nav-list">
+        <li class="nav-item"><button type="button" class="nav-link active" data-nav="canto_curvo"><span class="ico">•</span> Canto Curvo</button></li>
+        <li class="nav-item"><button type="button" class="nav-link" data-nav="portas"><span class="ico">•</span> Portas</button></li>
+        <li class="nav-item"><button type="button" class="nav-link" data-nav="prateleiras"><span class="ico">•</span> Prateleiras</button></li>
+        <li class="nav-item"><button type="button" class="nav-link" data-nav="muxarabi"><span class="ico">•</span> Muxarabi</button></li>
+        <li class="nav-item"><button type="button" class="nav-link" data-nav="paineis"><span class="ico">•</span> Painéis</button></li>
+        <li class="nav-item"><button type="button" class="nav-link" data-nav="pes_especiais"><span class="ico">•</span> Pés Especiais</button></li>
+        <li class="nav-item"><button type="button" class="nav-link" data-nav="personalizadas"><span class="ico">•</span> Peças Personalizadas</button></li>
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Configurações</div>
+      <ul class="nav-list">
+        <li class="nav-item"><button type="button" class="nav-link" id="navContaBtn"><span class="ico">👤</span> Minha Conta & CNC</button></li>
+        <li class="nav-item"><button type="button" class="nav-link" id="navPresetsBtn"><span class="ico">⭐</span> Presets Salvos</button></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-stat">
+        <span class="sf-num">9.759 arquivos gerados</span>
+        <span class="sf-lbl">na plataforma</span>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:var(--c-side-text-soft);display:flex;gap:10px;">
+        <span style="color:var(--c-side-text-soft);">Privacidade</span>
+        <span style="opacity:.4;">&middot;</span>
+        <span style="color:var(--c-side-text-soft);">Termos</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CORPO PRINCIPAL -->
+  <div class="app-content-shell">
+    <!-- TOPBAR SUPERIOR COM SAUDAÇÃO E INDICADORES -->
+    <header class="app-topbar">
+      <div class="topbar-greet-block">
+        <div class="gm">Boa tarde, Bruno 👋</div>
+        <div class="gs">Pronto para gerar peças incríveis hoje?</div>
+      </div>
+      <div class="topbar-indicators">
+        <div class="indicator-card">
+          <div class="ic-icon">📁</div>
+          <div class="ic-body">
+            <span class="ic-label">Arquivos</span>
+            <span class="ic-value" id="kpiArquivosVal">0</span>
+            <span class="ic-delta">—</span>
+          </div>
+        </div>
+        <div class="indicator-card violet">
+          <div class="ic-icon">📅</div>
+          <div class="ic-body">
+            <span class="ic-label">Uso mensal</span>
+            <span class="ic-value">Ilimitado</span>
+            <span class="ic-sub">Empresarial</span>
+          </div>
+        </div>
+        <div class="indicator-card success">
+          <div class="ic-icon">⏱</div>
+          <div class="ic-body">
+            <span class="ic-label">Tempo economizado</span>
+            <span class="ic-value" id="kpiTempoVal">~18h</span>
+          </div>
+        </div>
+        <div class="indicator-card warm">
+          <div class="ic-icon">🔥</div>
+          <div class="ic-body">
+            <span class="ic-label">Sequência</span>
+            <span class="ic-value">1 dia</span>
+          </div>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button type="button" class="btn ghost sm" style="padding:7px 10px;font-size:16px;" title="Avisos do sistema">🔔</button>
+        <span class="btn sm btn-subscribe" style="background:#15803d; cursor:default;">Plano Pro Ativo</span>
+        <button type="button" class="btn secondary sm" id="btnPerfilTrigger">Perfil</button>
+        <button type="button" class="btn ghost sm" id="btnConfigCncTrigger">CNC</button>
+      </div>
+    </header>
+
+    <!-- ÁREA PRINCIPAL -->
+    <main class="app-main fade-in">
+      <div class="product-title-block">
+        <div>
+          <div class="eyebrow">Geradores</div>
+          <h1 id="page_title">Canto Curvo Simples</h1>
+          <p class="lead" id="page_lead">Gere peças curvas com precisão profissional para suas marcenarias.</p>
+        </div>
+      </div>
+
+      <!-- SELETOR DE PRODUTOS COMPLETO -->
+      <div class="surface" style="padding:16px 20px;margin-bottom:18px;">
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--c-text-soft);margin-bottom:10px;">📦 Selecione o produto</div>
+        
+        <!-- Categorias -->
+        <div id="sel-produto">
+          <button type="button" class="btn-cat ativo" data-cat="canto_curvo">Canto Curvo</button>
+          <button type="button" class="btn-cat" data-cat="portas">Portas</button>
+          <button type="button" class="btn-cat" data-cat="prateleiras">Prateleiras</button>
+          <button type="button" class="btn-cat" data-cat="muxarabi">Muxarabi</button>
+          <button type="button" class="btn-cat" data-cat="paineis">Painéis</button>
+          <button type="button" class="btn-cat" data-cat="pes_especiais">Pés Especiais</button>
+          <button type="button" class="btn-cat" data-cat="personalizadas">Peças Personalizadas</button>
+        </div>
+
+        <!-- Sub-produtos com miniaturas -->
+        <div id="sel-subtipo" style="margin-top:10px;">
+          <!-- Renderizado dinamicamente pelo app.js -->
+        </div>
+      </div>
+
+      <!-- BARRA DE ABAS DO GERADOR -->
+      <div class="tabs-bar">
+        <div class="tabs" id="generatorTabs">
+          <button type="button" class="tab active" data-tab="medidas">📏 Medidas</button>
+          <button type="button" class="tab" data-tab="folgas">🟢 Folgas</button>
+          <button type="button" class="tab" data-tab="avancado">⚙️ Avançado</button>
+          <button type="button" class="tab" data-tab="presets">⭐ Presets</button>
+          <button type="button" class="tab" data-tab="lote">📋 Lista Atual (<span id="queueBadge">0</span>)</button>
+        </div>
+        <div class="tabs-toolbar">
+          <button type="button" class="btn sm secondary" id="btnRelatorioTrigger">📊 Relatório Técnico</button>
+        </div>
+      </div>
+
+      <!-- LAYOUT SPLIT: FORMULÁRIO (ESQUERDA) + PREVIEW 3D (DIREITA) -->
+      <div class="layout-main" style="display:grid; grid-template-columns: minmax(320px, 1.15fr) minmax(360px, 1fr); gap: 20px; align-items: start;">
+        
+        <!-- COLUNA DA ESQUERDA: FORMULÁRIO PARAMÉTRICO -->
+        <div class="surface" style="padding: 22px; border-radius: 16px;">
+          <div id="formTabBadge" style="display:inline-flex; align-items:center; gap:6px; background:#fef3c7; color:#92400e; font-weight:700; font-size:12px; border-radius:20px; padding:4px 14px; margin-bottom:18px;">
+            📏 MEDIDAS
+          </div>
+
+          <div id="boxAvisoGeometria" style="display:none; margin-bottom:14px; background:rgba(245, 158, 11, 0.12); border:1px solid #f59e0b; color:#b45309; border-radius:8px; padding:10px 14px; font-size:12.5px; line-height:1.45;"></div>
+
+          <form id="dynamicParamForm" onsubmit="event.preventDefault();">
+            <div id="formBody">
+              <!-- Campos dinâmicos inseridos pelo app.js -->
+            </div>
+
+            <!-- BOTÕES DE AÇÃO -->
+            <div style="margin-top:22px; display:flex; flex-direction:column; gap:10px;">
+              <button type="button" id="btnGerarDXFPrincipal" class="btn" style="width:100%; padding:14px; font-size:14.5px; font-weight:700; background:var(--c-primary); display:flex; flex-direction:column; align-items:center; gap:2px;">
+                <span>🚀 GERAR DXF AGORA</span>
+                <span style="font-size:11px; font-weight:400; opacity:0.85;">Visualize e baixe seu arquivo DXF</span>
+              </button>
+
+              <div style="display:flex; gap:10px;">
+                <button type="button" id="btnPreview2DTrigger" class="btn secondary" style="flex:1; padding:9px;">📐 Ver 2D CAD</button>
+                <button type="button" id="btnAdicionarLoteTrigger" class="btn secondary" style="flex:1; padding:9px;">➕ Adicionar à Fila</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- COLUNA DA DIREITA: PREVIEW 3D & 2D CAD -->
+        <aside class="preview-rail surface" style="padding: 18px; border-radius: 16px;">
+          <div class="preview-rail-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <span class="pr-eyebrow" style="font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; color:var(--c-text-soft);">PREVIEW 3D</span>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span class="yt-tutorial-badge" style="background:#e11d48; color:white; font-size:11px; font-weight:800; border-radius:20px; padding:4px 12px; cursor:pointer; display:inline-flex; align-items:center; gap:4px; box-shadow:0 1px 3px rgba(225,29,72,0.3);">
+                <span style="font-size:11px;">▶</span> TUTORIAL
+              </span>
+              <button type="button" class="btn secondary sm" style="background:#ffffff; border:1px solid #cbd5e1; color:#334155; border-radius:20px; padding:4px 12px; font-size:11px; font-weight:700; cursor:pointer;">
+                💬 FEEDBACK
+              </button>
+            </div>
+          </div>
+
+          <div class="preview-canvas-wrap">
+            <div class="preview-canvas" id="preview_canvas">
+              <canvas id="curvoPreviewCanvas" width="500" height="380" aria-label="Visualização 3D"></canvas>
+              <canvas id="curvoPreview2DCanvas" width="500" height="380" aria-label="Planta Técnica 2D CAD"></canvas>
+              
+              <div id="curvoPreviewHint" style="position:absolute; left:10px; top:8px; padding:4px 8px; border-radius:6px; background:rgba(15,23,42,.65); color:rgba(255,255,255,.9); font-size:10px; pointer-events:none;">
+                Arraste para girar · roda para zoom
+              </div>
+
+              <!-- BOTÕES FLUTUANTES DA CÂMERA (↻, XR, 🔍, ⛶) -->
+              <div class="preview-tools" style="position:absolute; right:10px; top:10px; display:flex; flex-direction:column; gap:6px; z-index:15;">
+                <button type="button" class="preview-tool" id="previewRotateToolBtn" title="Vista Isométrica / Girar" style="width:32px; height:32px; border-radius:8px; background:rgba(15,23,42,.75); border:1px solid rgba(255,255,255,.2); color:white; font-size:14px; cursor:pointer;">↻</button>
+                <button type="button" class="preview-tool" id="previewFrontalToolBtn" title="Vista Frontal Direta" style="width:32px; height:32px; border-radius:8px; background:rgba(15,23,42,.75); border:1px solid rgba(255,255,255,.2); color:white; font-size:11px; font-weight:800; cursor:pointer;">👁</button>
+                <button type="button" class="preview-tool" id="curvoXrayToolBtn" title="Modo Raio-X Translúcido" style="width:32px; height:32px; border-radius:8px; background:rgba(15,23,42,.75); border:1px solid rgba(255,255,255,.2); color:white; font-size:10px; font-weight:800; cursor:pointer;">XR</button>
+                <button type="button" class="preview-tool" id="ppZoomToolBtn" title="Resetar Câmera" style="width:32px; height:32px; border-radius:8px; background:rgba(15,23,42,.75); border:1px solid rgba(255,255,255,.2); color:white; font-size:13px; cursor:pointer;">🔍</button>
+                <button type="button" class="preview-tool" id="ppFullscreenToolBtn" title="Tela Cheia" style="width:32px; height:32px; border-radius:8px; background:rgba(15,23,42,.75); border:1px solid rgba(255,255,255,.2); color:white; font-size:13px; cursor:pointer;">⛶</button>
+              </div>
+
+              <!-- Alternador 3D / 2D -->
+              <div class="btn-view-toggle">
+                <button type="button" id="btnToggle3D" class="active">🧊 3D</button>
+                <button type="button" id="btnToggle2D">📐 2D CAD</button>
+              </div>
+
+              <!-- Seletor de Textura de Madeira -->
+              <select class="preview-material-select" id="selectAcabamento">
+                <option value="mdf_cru" selected>MDF Cru</option>
+                <option value="carvalho">Carvalho</option>
+                <option value="freijo">Freijó</option>
+                <option value="nogueira">Nogueira</option>
+                <option value="branco">Branco TX</option>
+                <option value="preto">Preto Grafite</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- LISTA DE COMPATIBILIDADE CNC -->
+          <ul class="preview-features" style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:14px; font-size:12px; color:var(--c-text-soft); list-style:none; padding:0;">
+            <li style="display:flex; align-items:center; gap:6px;"><span style="color:var(--c-success);">✔</span> Compatível CNC</li>
+            <li style="display:flex; align-items:center; gap:6px;"><span style="color:var(--c-success);">✔</span> Camadas DXF padronizadas</li>
+            <li style="display:flex; align-items:center; gap:6px;"><span style="color:var(--c-success);">✔</span> Folgas e raios validados</li>
+            <li style="display:flex; align-items:center; gap:6px;"><span style="color:var(--c-success);">✔</span> Pronto para corte</li>
+          </ul>
+          <div class="preview-privacy-note" style="margin-top:10px; font-size:11.5px; color:var(--c-text-muted); text-align:center;">
+            🔒 Seus arquivos são privados e seguros
+          </div>
+
+          <!-- MÉTRICAS DE PRODUÇÃO -->
+          <div style="margin-top:14px; padding:10px 14px; border-radius:10px; background:var(--c-surface-2); border:1px solid var(--c-border); display:flex; justify-content:space-between; font-size:12px;">
+            <div>Área: <strong id="metricArea" style="color:var(--c-text);">0.76 m²</strong></div>
+            <div>Perímetro: <strong id="metricPerimetro" style="color:var(--c-text);">7.69 m</strong></div>
+            <div>Tempo CNC: <strong id="metricTempo" style="color:var(--c-text);">~12 min</strong></div>
+          </div>
+        </aside>
+      </div>
+
+      <!-- SEÇÃO INFERIOR: ÚLTIMAS PEÇAS GERADAS -->
+      <div class="surface" style="padding:18px 20px; margin-top:24px; border-radius:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
+          <div>
+            <h3 style="margin:0; font-size:15px; font-weight:800; color:var(--c-text);">🕘 ÚLTIMAS PEÇAS</h3>
+            <p style="margin:2px 0 0; font-size:12px; color:var(--c-text-soft);">Histórico persistente de todas as peças geradas prontas para download.</p>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <input type="text" id="historySearchInput" placeholder="Buscar por tipo, medida..." style="padding:6px 12px; border-radius:8px; border:1px solid var(--c-border); font-size:12.5px;">
+            <button type="button" class="btn sm secondary" id="btnClearHistory">Limpar Histórico</button>
+          </div>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table style="width:100%; border-collapse:collapse; font-size:12.5px; text-align:left;">
+            <thead>
+              <tr style="border-bottom:1px solid var(--c-border); color:var(--c-text-soft); font-size:11.5px; text-transform:uppercase;">
+                <th style="padding:8px 12px;">Peça / Produto</th>
+                <th style="padding:8px 12px;">Dimensões</th>
+                <th style="padding:8px 12px;">Material</th>
+                <th style="padding:8px 12px;">Camadas CNC</th>
+                <th style="padding:8px 12px;">Data</th>
+                <th style="padding:8px 12px; text-align:right;">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="historyTableBody">
+              <!-- Preenchido via app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+
+    <div class="app-footer" style="padding:24px 0; text-align:center; font-size:12px; color:var(--c-text-muted);">
+      +320 marceneiros ativos · Central DXF PRO
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DE CONFIGURAÇÃO CNC -->
+<div id="modalConfigCNC" class="ux-modal" style="display:none;">
+  <div class="ux-modal-backdrop" onclick="document.getElementById('modalConfigCNC').style.display='none'"></div>
+  <div class="ux-modal-card">
+    <div class="ux-modal-head">
+      <div>
+        <div class="ux-modal-kicker">Parâmetros de Usinagem</div>
+        <h2 style="margin:0 0 4px 0; font-size:22px;">⚙️ Configurações da Router CNC</h2>
+        <div class="ux-modal-help">Defina as folgas de fresa, avanço e camadas padrão para a sua máquina.</div>
+      </div>
+      <button type="button" class="btn secondary sm modal-close" onclick="document.getElementById('modalConfigCNC').style.display='none'">Fechar</button>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0;">
+      <div><label style="font-size:12px; font-weight:700;">Diâmetro da fresa de corte padrão</label><input type="number" id="cfgDiamFresa" value="6" style="width:100%; padding:8px; border-radius:6px; border:1px solid var(--c-border);"></div>
+      <div><label style="font-size:12px; font-weight:700;">Folga padrão de encaixes (mm)</label><input type="number" id="cfgFolgaEncaixe" value="0.2" step="0.05" style="width:100%; padding:8px; border-radius:6px; border:1px solid var(--c-border);"></div>
+      <div><label style="font-size:12px; font-weight:700;">Avanço de corte (Feed Rate - mm/min)</label><input type="number" id="cfgFeedRate" value="3500" style="width:100%; padding:8px; border-radius:6px; border:1px solid var(--c-border);"></div>
+      <div><label style="font-size:12px; font-weight:700;">Passo de dobra Kerfing (mm)</label><input type="number" id="cfgPassoKerf" value="5" style="width:100%; padding:8px; border-radius:6px; border:1px solid var(--c-border);"></div>
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:10px;">
+      <button type="button" class="btn secondary" onclick="document.getElementById('modalConfigCNC').style.display='none'">Cancelar</button>
+      <button type="button" class="btn" id="btnSalvarConfigCNC" style="background:var(--c-primary);">Salvar Configurações</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DE RELATÓRIO TÉCNICO -->
+<div id="modalRelatorioCorte" class="ux-modal" style="display:none;">
+  <div class="ux-modal-backdrop" onclick="document.getElementById('modalRelatorioCorte').style.display='none'"></div>
+  <div class="ux-modal-card">
+    <div class="ux-modal-head">
+      <div>
+        <div class="ux-modal-kicker">Análise de Produção</div>
+        <h2 style="margin:0 0 4px 0; font-size:22px;">📊 Relatório Técnico CNC</h2>
+        <div class="ux-modal-help">Dados calculados para otimização do seu processo de usinagem.</div>
+      </div>
+      <button type="button" class="btn secondary sm modal-close" onclick="document.getElementById('modalRelatorioCorte').style.display='none'">Fechar</button>
+    </div>
+    <div id="relatorioModalContent" style="margin:16px 0; color:var(--c-text);">
+      <!-- Preenchido dinamicamente -->
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:10px;">
+      <button type="button" id="btnDownloadDxfFromModal" class="btn" style="background:var(--c-primary);">🚀 Baixar DXF</button>
+      <button type="button" class="btn secondary" onclick="document.getElementById('modalRelatorioCorte').style.display='none'">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPTS DO MOTOR -->
+<script type="module" src="js/app.js"></script>
+
+</body>
+</html>

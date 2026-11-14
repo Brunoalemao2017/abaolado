@@ -1,0 +1,105 @@
+
+  <div class="login-bg">
+    <div class="login-shell fade-in">
+
+      <aside class="login-hero">
+        <div>
+          <div class="brand-mark">D</div>
+          <h1>Central DXF PRO</h1>
+          <p>Seu assistente CNC para marcenaria - gere pecas prontas para corte com precisao e velocidade.</p>
+          <ul class="features">
+            <li>Cantos curvos, portas e prateleiras</li>
+            <li>Lista em lote para projetos completos</li>
+            <li>DXF pronto para utilização</li>
+          </ul>
+        </div>
+      </aside>
+
+      <section class="login-form">
+        <div class="login-tabs">
+          <button type="button" class="login-tab active" data-pane="login" onclick="loginTab('login')">Entrar</button>
+          <button type="button" class="login-tab " data-pane="register" onclick="loginTab('register')">Criar conta</button>
+          <button type="button" class="login-tab " data-pane="reset" onclick="loginTab('reset')">Alterar senha</button>
+          <button type="button" class="login-tab " data-pane="forgot" onclick="loginTab('forgot')">Esqueci a senha</button>
+        </div>
+
+        <div class="login-pane " data-pane="login">
+          <h2>Bem-vindo de volta</h2>
+          <p class="lead">Entre com seu acesso para abrir o gerador.</p>
+          
+          
+          
+          <form method="post" action="/login">
+            <div class="field"><label>E-mail ou usuario</label><input name="username" type="text" autocomplete="username" required></div>
+            <div class="field"><label>Senha</label><input name="password" type="password" autocomplete="current-password" required></div>
+            <div class="actions"><button type="submit" class="btn lg">Entrar</button></div>
+          </form>
+          <p style="text-align:center;margin-top:14px;font-size:13px;">
+            <a href="javascript:void(0)" onclick="loginTab('forgot')" style="color:var(--c-primary);">Esqueci minha senha</a>
+          </p>
+        </div>
+
+        <div class="login-pane hidden" data-pane="forgot">
+          <h2>Recuperar senha</h2>
+          <p class="lead">Informe o e-mail cadastrado na Central DXF. Enviaremos um link para você criar uma nova senha.</p>
+          
+          
+          <form method="post" action="/esqueci-senha">
+            <div class="field"><label>E-mail</label><input name="email" type="email" autocomplete="email" required></div>
+            <div class="actions"><button type="submit" class="btn lg">Enviar link de recuperação</button></div>
+          </form>
+          <p style="text-align:center;margin-top:14px;font-size:13px;">
+            <a href="javascript:void(0)" onclick="loginTab('login')" style="color:var(--c-primary);">Voltar para o login</a>
+          </p>
+        </div>
+
+        <div class="login-pane hidden" data-pane="register">
+          <h2>Criar conta</h2>
+          <p class="lead">Cadastre um novo acesso para entrar no Central DXF PRO.</p>
+          
+          
+          <form method="post" action="/register">
+            <div class="field"><label>E-mail</label><input name="email" type="email" autocomplete="email" required></div>
+            <div class="field"><label>WhatsApp <span style="font-weight:400;color:var(--c-text-muted)">(opcional)</span></label><input name="whatsapp" type="tel" placeholder="(11) 99999-9999"></div>
+            <div class="field"><label>Senha</label><input name="password" type="password" autocomplete="new-password" required></div>
+            <div class="field"><label>Confirmar senha</label><input name="confirm_password" type="password" autocomplete="new-password" required></div>
+            <div class="field" style="margin-top:16px;">
+              <label style="display:flex;align-items:flex-start;gap:10px;font-size:13px;font-weight:400;cursor:pointer;">
+                <input type="checkbox" name="accept_terms" required style="width:16px;height:16px;margin-top:2px;flex-shrink:0;">
+                <span>Li e aceito os <a href="/termos-de-uso" target="_blank" style="color:var(--c-primary);">Termos de Uso</a> e a <a href="/politica-de-privacidade" target="_blank" style="color:var(--c-primary);">Política de Privacidade</a>.</span>
+              </label>
+            </div>
+            <div class="field">
+              <label style="display:flex;align-items:flex-start;gap:10px;font-size:13px;font-weight:400;cursor:pointer;">
+                <input type="checkbox" name="marketing_opt_in" style="width:16px;height:16px;margin-top:2px;flex-shrink:0;">
+                <span>Aceito receber comunicações sobre novidades e atualizações do Central DXF PRO.</span>
+              </label>
+            </div>
+            <div class='cf-turnstile' data-sitekey='0x4AAAAAAD-eufv-THX67suy' style='margin-bottom:14px;'></div>
+            <div class="actions"><button type="submit" class="btn lg">Criar conta</button></div>
+          </form>
+        </div>
+
+        <div class="login-pane hidden" data-pane="reset">
+          <h2>Alterar senha</h2>
+          <p class="lead">Defina uma nova senha confirmando seu acesso atual.</p>
+          
+          
+          <form method="post" action="/change-password-login">
+            <div class="field"><label>E-mail ou usuario</label><input name="username" type="email" autocomplete="username" required></div>
+            <div class="field"><label>Senha atual</label><input name="current_password" type="password" autocomplete="current-password" required></div>
+            <div class="field"><label>Nova senha</label><input name="new_password" type="password" autocomplete="new-password" required></div>
+            <div class="field"><label>Confirmar nova senha</label><input name="confirm_password" type="password" autocomplete="new-password" required></div>
+            <div class="actions"><button type="submit" class="btn lg">Alterar senha</button></div>
+          </form>
+        </div>
+      </section>
+
+    </div>
+    <div style="text-align:center;padding:16px 0 0;font-size:12px;color:rgba(255,255,255,.4);">
+      <a href="/politica-de-privacidade" target="_blank" style="color:rgba(255,255,255,.55);text-decoration:none;">Política de Privacidade</a>
+      &nbsp;&middot;&nbsp;
+      <a href="/termos-de-uso" target="_blank" style="color:rgba(255,255,255,.55);text-decoration:none;">Termos de Uso</a>
+    </div>
+  </div>
+

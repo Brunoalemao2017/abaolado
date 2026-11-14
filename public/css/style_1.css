@@ -1,0 +1,35 @@
+
+  .plan-sim { padding:14px 18px;margin-bottom:14px;border:1px solid var(--c-primary-100);background:linear-gradient(180deg,#f8fbff 0%,#ffffff 70%); }
+  .plan-sim-head { display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:10px; }
+  .plan-sim-title { margin:0;font-size:16px;line-height:1.2; }
+  .plan-sim-sub { margin:3px 0 0;max-width:720px;color:var(--c-text-soft);font-size:12.5px;line-height:1.4; }
+  /* Chave de 3 posicoes: caixa unica, largura do conteudo, encostada a
+     esquerda — nao estica na tela como uma grade de cartoes. */
+  .plan-sim-cards { display:inline-flex;border:1px solid var(--c-border-strong);border-radius:11px;overflow:hidden;background:var(--c-surface); }
+  .plan-sim-card { min-width:106px;display:flex;align-items:center;justify-content:center;padding:8px 18px;border:0;border-left:1px solid var(--c-border);background:transparent;color:var(--c-text-soft);cursor:pointer;font-family:inherit;transition:all var(--t-fast); }
+  .plan-sim-card:first-child { border-left:0; }
+  .plan-sim-card:hover:not(.is-active) { background:var(--c-surface-2);color:var(--c-text); }
+  .plan-sim-card.is-active { background:var(--c-primary);color:#fff; }
+  .plan-sim-name { font-size:13.5px;font-weight:700;line-height:1.1; }
+  @media (max-width:640px) { .plan-sim-cards { display:flex;width:100%; } .plan-sim-card { flex:1;min-width:0;padding:8px 10px; } }
+
+  /* Estado simulado dos produtos: apagado + mensagem no hover.
+     O botao inteiro NAO leva opacity/filter — isso apagaria junto a mensagem
+     (o balao e um ::after dele). Quem clareia sao as cores e o conteudo. */
+  #sel-produto .btn-cat, #sel-subtipo .btn-sub { position:relative; }
+  #sel-produto .btn-cat.sim-locked, #sel-subtipo .btn-sub.sim-locked { color:var(--c-text-muted) !important;border-color:var(--c-border) !important;background:var(--c-surface-2) !important;box-shadow:none !important;font-weight:500;cursor:help; }
+  #sel-produto .btn-cat.sim-locked:hover, #sel-subtipo .btn-sub.sim-locked:hover { background:var(--c-surface-2) !important;border-color:var(--c-border) !important;color:var(--c-text-muted) !important; }
+  #sel-produto .btn-cat.sim-locked::before, #sel-subtipo .btn-sub.sim-locked::before { content:'\1F512';margin-right:6px;font-size:11px;opacity:.5; }
+  #sel-subtipo .btn-sub.sim-locked img { opacity:.3;filter:grayscale(1); }
+  #sel-subtipo .btn-sub.sim-locked > span { opacity:.45;filter:grayscale(1); }
+  .app-sidebar .nav-link.sim-locked { opacity:.38;cursor:help; }
+  #sel-produto .btn-cat.sim-locked[data-sim-msg]:hover::after,
+  #sel-subtipo .btn-sub.sim-locked[data-sim-msg]:hover::after,
+  #sel-produto .btn-cat.sim-locked.sim-msg-on::after,
+  #sel-subtipo .btn-sub.sim-locked.sim-msg-on::after {
+    content:attr(data-sim-msg);position:absolute;left:0;bottom:calc(100% + 8px);z-index:50;
+    width:max-content;max-width:280px;white-space:normal;text-align:left;
+    padding:8px 10px;border-radius:9px;border:1px solid var(--c-border);
+    background:#0f172a;color:#fff;font-size:11.5px;font-weight:600;line-height:1.4;
+    box-shadow:var(--sh-lg);pointer-events:none;filter:none;opacity:1;
+  }

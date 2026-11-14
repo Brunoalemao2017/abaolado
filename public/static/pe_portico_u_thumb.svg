@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+  <rect width="160" height="160" rx="18" fill="#f8fafc"/>
+  <!-- Top tabletop line -->
+  <rect x="20" y="24" width="120" height="10" rx="3" fill="#854d0e" stroke="#713f12" stroke-width="1.5"/>
+  <!-- Outer U Pedestal -->
+  <path d="M 36,34 L 56,34 L 56,106 C 56,118 68,126 80,126 C 92,126 104,118 104,106 L 104,34 L 124,34 L 124,136 L 36,136 Z" fill="#b45309" stroke="#78350f" stroke-width="2"/>
+  <!-- Stepped Cascata Inner Arch -->
+  <path d="M 44,34 L 52,34 L 52,106 C 52,121 65,130 80,130 C 95,130 108,121 108,106 L 108,34 L 116,34" fill="none" stroke="#d97706" stroke-width="2.5"/>
+  <!-- U Cutout -->
+  <path d="M 64,34 L 64,100 C 64,108 71,114 80,114 C 89,114 96,108 96,100 L 96,34 Z" fill="#f8fafc" stroke="#78350f" stroke-width="2"/>
+  <!-- Seam / Emenda subtle dashes -->
+  <line x1="42" y1="34" x2="42" y2="44" stroke="#ef4444" stroke-width="2"/>
+  <line x1="118" y1="34" x2="118" y2="44" stroke="#ef4444" stroke-width="2"/>
+</svg>
