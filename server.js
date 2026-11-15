@@ -362,16 +362,19 @@ rotasPes.forEach(nome => {
   app.post(`/api/${nome}/montado3d`, (req, res) => {
     const body = req.body || {};
     if (!AlgoritmosCNC) return res.status(500).json({ erro: 'Algoritmos CNC não inicializados' });
-    const tipo = nome.replace(/-/g, '_');
+    let tipo = nome.replace(/-/g, '_');
+    if (tipo === 'revestimento_cone') tipo = 'revestimento_cone_eliptico';
     body.produto = tipo;
     const calculo = AlgoritmosCNC.calcularPeConico ? AlgoritmosCNC.calcularPeConico(body) : {};
-    res.json(calculo.peData || {
+    const respData = calculo.peData || {
       kind: tipo,
       largura_base: 550, profund_base: 550,
       largura_topo: 350, profund_topo: 350,
       altura: 700, espessura_mdf: 18,
       sectors: [{ theta_start: 0, theta_end: Math.PI }, { theta_start: Math.PI, theta_end: Math.PI * 2 }]
-    });
+    };
+    respData.kind = tipo;
+    res.json(respData);
   });
 });
 
