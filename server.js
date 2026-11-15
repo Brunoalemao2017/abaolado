@@ -140,15 +140,16 @@ function proxyParaCentral(endpoint, bodyObj, res, fallbackLocal) {
 // 2. IMPORTAÇÃO DOS ALGORITMOS CNC LOCAIS
 // ----------------------------------------------------
 let AlgoritmosCNC = null;
-import('./public/js/algorithms.js').then(mod => {
+try {
+  const mod = require('./public/js/algorithms.js');
   AlgoritmosCNC = mod.AlgoritmosCNC;
   if (AlgoritmosCNC && !AlgoritmosCNC.calcularRipado) {
     AlgoritmosCNC.calcularRipado = AlgoritmosCNC.calcularPainelRipado;
   }
   console.log('✅ Motor CNC Paramétrico Offline carregado com sucesso!');
-}).catch(err => {
-  console.error('Erro ao carregar algorithms.js:', err);
-});
+} catch (err) {
+  console.error('Erro ao carregar algorithms.js sincrono:', err);
+}
 
 // ----------------------------------------------------
 // 3. GERADOR DXF NATIVO (AutoCAD R12 ASCII Standard)

@@ -3,7 +3,7 @@
  * Implementação 100% fiel à arquitetura do Central DXF PRO.
  */
 
-export const AlgoritmosCNC = {
+const AlgoritmosCNC = {
 
   // =========================================================================
   // 1. CANTO CURVO SIMPLES (MODELO EXATO CENTRAL DXF COM VALIDAÇÃO PARAMÉTRICA)
@@ -1795,3 +1795,10 @@ export const AlgoritmosCNC = {
     return this.calcularPainelRipado(params);
   },
 };
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { AlgoritmosCNC };
+}
+if (typeof window !== 'undefined') {
+  window.AlgoritmosCNC = AlgoritmosCNC;
+}
