@@ -1,0 +1,53 @@
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/server/api/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/preview-*"
+  to = "/.netlify/functions/server/preview-:splat"
+  status = 200
+
+[[redirects]]
+  from = "/pecas-personalizadas/*"
+  to = "/.netlify/functions/server/pecas-personalizadas/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/pecas-personalizadas"
+  to = "/pecas-personalizadas.html"
+  status = 200
+
+[[redirects]]
+  from = "/cambotas"
+  to = "/pecas-personalizadas.html"
+  status = 200
+
+[[redirects]]
+  from = "/divisores"
+  to = "/pecas-personalizadas.html"
+  status = 200
+
+[[redirects]]
+  from = "/pecas-provencais"
+  to = "/pecas-personalizadas.html"
+  status = 200
+
+[[redirects]]
+  from = "/curvo-presets"
+  to = "/.netlify/functions/server/curvo-presets"
+  status = 200
+
+[[redirects]]
+  from = "/presets"
+  to = "/.netlify/functions/server/presets"
+  status = 200
+
+[[redirects]]
+  from = "/history"
+  to = "/.netlify/functions/server/history"
+  status = 200

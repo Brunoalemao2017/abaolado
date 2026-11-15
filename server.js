@@ -510,12 +510,16 @@ rotasPreview.forEach(rota => {
 // ----------------------------------------------------
 // 7. INICIALIZAÇÃO DO SERVIDOR
 // ----------------------------------------------------
-app.listen(PORT, () => {
-  console.log(`====================================================`);
-  console.log(`🚀 CENTRAL DXF CNC PRO [PLANO EXPERT VITALÍCIO] INICIADO!`);
-  console.log(`📍 Servidor rodando localmente em: http://localhost:${PORT}`);
-  console.log(`🔑 Autenticado na Central DXF Oficial como Bruno Alemão`);
-  console.log(`⭐ Todos os recursos Expert (Cambotas, Orgânicos, etc.) desbloqueados`);
-  console.log(`🛠️ Geração de DXF 100% desbloqueada offline para CNC`);
-  console.log(`====================================================`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`====================================================`);
+    console.log(`🚀 FABRICA 064 [PLANO EXPERT VITALÍCIO] INICIADO!`);
+    console.log(`📍 Servidor rodando localmente em: http://localhost:${PORT}`);
+    console.log(`🔑 Autenticado com sucesso`);
+    console.log(`⭐ Todos os recursos Expert (Cambotas, Orgânicos, etc.) desbloqueados`);
+    console.log(`🛠️ Geração de DXF 100% desbloqueada offline para CNC`);
+    console.log(`====================================================`);
+  });
+}
+
+module.exports = { app };
